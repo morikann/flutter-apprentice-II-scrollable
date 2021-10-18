@@ -14,8 +14,19 @@ class ExploreScreen extends StatelessWidget {
       future: mockService.getExploreData(),
       builder: (context, AsyncSnapshot<ExploreData> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          final recipes = snapshot.data?.todayRecipes ?? [];
-          return TodayRecipeListView(recipes: recipes);
+          return ListView(
+            // 6
+            scrollDirection: Axis.vertical,
+            children: [
+              // 7
+              TodayRecipeListView(recipes: snapshot.data?.todayRecipes ?? []),
+              // 8
+              const SizedBox(height: 16),
+              // 9
+              // TODO: Replace this with FriendPostListView
+              FriendPostListView(friendPosts: snapshot.data?.friendPosts ?? []),
+            ],
+          );
         } else {
           return const Center(
             child: CircularProgressIndicator(),
